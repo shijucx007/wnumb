@@ -20,7 +20,9 @@
     "suffix",
     "encoder",
     "decoder",
-    "negativeBefore",
+    "positiveBefore",
+    "negativeInBracket",
+    "negativeBefore",    
     "negative",
     "edit",
     "undo"
@@ -78,6 +80,8 @@
     suffix,
     encoder,
     decoder,
+    positiveBefore,
+    negativeInBracket,
     negativeBefore,
     negative,
     edit,
@@ -87,6 +91,7 @@
     var originalInput = input,
       inputIsNegative,
       inputPieces,
+      bracketPieces,
       inputBase,
       inputDecimals = "",
       output = "";
@@ -113,7 +118,7 @@
     if (input < 0) {
       inputIsNegative = true;
       input = Math.abs(input);
-    }
+    }    
 
     // Reduce the number of decimals to the specified option.
     if (decimals !== false) {
@@ -158,6 +163,17 @@
       output += negative;
     }
 
+    // Normal negative option comes inside a paratheses. Defaults to '()'.
+    if (inputIsNegative && negativeInBracket) {
+        bracketPieces = negativeInBracket.split('');
+        inputBase = bracketPieces[0]+inputBase;
+        inputDecimals = inputDecimals+ bracketPieces[1];
+    }
+
+    if (input > 0 && positiveBefore) {
+      output += positiveBefore;
+    }
+
     // Append the actual number.
     output += inputBase;
     output += inputDecimals;
@@ -171,7 +187,7 @@
     if (edit) {
       output = edit(output, originalInput);
     }
-
+    
     // All done.
     return output;
   }
@@ -185,6 +201,8 @@
     suffix,
     encoder,
     decoder,
+    positiveBefore,
+    negativeInBracket,
     negativeBefore,
     negative,
     edit,
@@ -193,6 +211,7 @@
   ) {
     var originalInput = input,
       inputIsNegative,
+      bracketPieces,
       output = "";
 
     // User defined pre-decoder. Result must be a non empty string.
@@ -237,6 +256,15 @@
     // Set the decimal separator back to period.
     if (mark) {
       input = input.replace(mark, ".");
+    }
+    
+    // And again for negative in brackets .
+    if (negativeInBracket){
+        bracketPieces = negativeInBracket.split('');
+        if((input.indexOf(bracketPieces[0]) > -1) && (input.indexOf(bracketPieces[1]) > -1)){
+          input = input.replace(/[()]/g, "");
+          inputIsNegative = true;   
+        }
     }
 
     // Prepend the negative symbol.
@@ -290,7 +318,7 @@
 
       if (optionValue === undefined) {
         // Only default if negativeBefore isn't set.
-        if (optionName === "negative" && !filteredOptions.negativeBefore) {
+        if (optionName === "negative" && !filteredOptions.negativeBefore && !filteredOptions.negativeInBracket) {
           filteredOptions[optionName] = "-";
           // Don't set a default for mark when 'thousand' is set.
         } else if (optionName === "mark" && filteredOptions.thousand !== ".") {

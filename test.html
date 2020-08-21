@@ -3,7 +3,7 @@
 	<head>
 		<link href="http://code.jquery.com/qunit/qunit-1.12.0.css" rel="stylesheet">
 		<script src="http://code.jquery.com/qunit/qunit-1.12.0.js"></script>
-		<script src="wNumb.min.js"></script>
+		<script src="wNumb.js"></script>
 	</head>
 
 	<div id="qunit"></div>
@@ -175,7 +175,7 @@
 				undo: function( value ){
 					return value;
 				}
-			});
+			});	
 
 			equal ( Tester.to ( 15000 ), '15000k' );
 			equal ( Tester.from ( '15000k' ), 15000 );
@@ -186,4 +186,33 @@
 			equal ( Tester.to ( 1058009 ), '1058009m' );
 		});
 
+		test( "Testing negative In Bracket, negativeInBracket", function(){
+			var Tester = wNumb({
+				negativeInBracket: '()',
+			});
+			equal ( Tester.to ( -10.35 ), '(10.35)' );
+			equal ( Tester.from ( 'eur (100.15)' ), -100.15 );
+		});
+
+		test( "Testing Positive before, positiveBefore", function(){
+			var Tester = wNumb({
+				positiveBefore: '+',
+			});
+			equal ( Tester.to ( 10.35 ), '+10.35' );
+			equal ( Tester.from ( 'eur (+100.15)' ), +100.15 );
+		});
+
+
+
+		// var wNumbTest2 = wNumb({
+		// 		//positiveBefore: '+'
+		// });
+		// //console.log(wNumbTest2.to(35.14));
+		// console.log(wNumbTest2.from('+35.14'));
+
+		// var wNumbTest = wNumb({
+		// 		negativeInBracket: '()',
+		// });	
+		// console.log(wNumbTest.to(-35.14));
+		// console.log(wNumbTest.from('EUR shiju (35.14)'));
 	</script>
