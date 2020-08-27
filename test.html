@@ -204,15 +204,16 @@
 
 
 
-		// var wNumbTest2 = wNumb({
-		// 		//positiveBefore: '+'
-		// });
-		// //console.log(wNumbTest2.to(35.14));
-		// console.log(wNumbTest2.from('+35.14'));
+		var wNumbTest2 = wNumb({
+				positiveBefore: ' +'
+		});
+		console.log(wNumbTest2.to(35.14));
+		console.log(wNumbTest2.from('+35.14'));
 
-		// var wNumbTest = wNumb({
-		// 		negativeInBracket: '()',
-		// });	
-		// console.log(wNumbTest.to(-35.14));
+		var wNumbTest = wNumb({
+				prefix: 'Eur ',
+				negativeInBracket: '()',
+		});	
+		console.log(wNumbTest.to(-35.14));
 		// console.log(wNumbTest.from('EUR shiju (35.14)'));
 	</script>

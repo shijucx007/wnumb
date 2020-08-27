@@ -158,12 +158,12 @@
       output += prefix;
     }
 
-    // Normal negative option comes after the prefix. Defaults to '-'.
+    //If the number is negative, add the negation symbol after the prefix
     if (inputIsNegative && negative) {
       output += negative;
     }
 
-    // Normal negative option comes inside a paratheses. Defaults to '()'.
+    // Instead of using a negation symbol enclose negative numbers in a brackets..
     if (inputIsNegative && negativeInBracket) {
         bracketPieces = negativeInBracket.split('');
         inputBase = bracketPieces[0]+inputBase;
